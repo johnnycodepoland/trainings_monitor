@@ -1,7 +1,10 @@
+import json
+
 from utils import load_trainings
 
 def add_training(login):
     from datetime import datetime
+    trainings = load_trainings()
 
     while True:
         try:
@@ -22,15 +25,21 @@ def add_training(login):
             break
         except ValueError:
             print("Podaj liczbę!")
-
-    with open ("data/trainings.csv", "a") as file:
-        file.write(f"{login}, {training_date}, {training_distance}, {training_time}\n")
+    if login not in trainings:
+        trainings[login] = []
+    training = [training_date, training_distance, training_time]
+    trainings[login].append(training)
+    try:
+        with open ("data/trainings.json", "w") as file:
+            json.dump(trainings, file, indent=4)
+    except FileNotFoundError:
+        return
     print("Trening został dodany ✅")
 
 def show_trainings(login):
     trainings = load_trainings()
 
-    if login in trainings:
+    if login in trainings and trainings[login]:
         for date, distance, time in trainings[login]:
             print(f"📅 Data: {date}")
             print(f"🏊 Dystans: {distance}m")

@@ -14,13 +14,8 @@ def load_trainings():
     trainings = {}
 
     try:
-        with open ("data/trainings.csv", "r") as file:
-            for line in file:
-                line = line.strip() # usuwa nam "białe znaki" z kodu np. \n
-                user, date, distance, time = line.split(",")
-                if user not in trainings:
-                    trainings[user] = []
-                trainings[user].append((date, int(distance), int(time)))
+        with open ("data/trainings.json", "r") as file:
+            trainings = json.load(file)
     except FileNotFoundError:
         return {}
     return trainings

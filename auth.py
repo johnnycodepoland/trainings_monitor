@@ -51,7 +51,7 @@ def signup():
                                 users[login] = password
                                 try:
                                     with open ("data/users.json", "w") as file:
-                                        json.dump(users, file)
+                                        json.dump(users, file, indent= 4)
                                 except FileNotFoundError:
                                     return
                                 print("Użytkownik został dodany ✅")
